@@ -21,8 +21,8 @@ ViewRecipe = React.createClass
     recipe = @props.recipe.toJSON()
     editing = @state.editing
 
-    editHandler = (field) => @handleEdit.bind(this, field)
-    saveHandler = (field) => @handleSave.bind(this, field)
+    editHandler = (field) => @handleEdit.bind @, field
+    saveHandler = (field) => @handleSave.bind @, field
 
     `<div className="col-md-9">
       <div className="panel panel-default view-recipe">

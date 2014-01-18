@@ -67,7 +67,7 @@ exports.Edit = React.createClass
     if _.isEmpty @props.ingredients
       newIngredients: ['']
     else
-      newIngredients: _.clone(@props.ingredients)
+      newIngredients: _.clone @props.ingredients
 
   renderIngredient: (ingredient, index) ->
     EditIngredient
@@ -98,10 +98,10 @@ exports.Edit = React.createClass
 
   handleSubmit: (e) ->
     e.preventDefault()
-    @props.onSave _.without(@state.newIngredients, '')
+    @props.onSave _.without @state.newIngredients, ''
 
   handleCancel: ->
-    @props.onSave(@props.ingredients)
+    @props.onSave @props.ingredients
 
   handleDown: (index, e) ->
     e.preventDefault()
@@ -117,11 +117,11 @@ exports.Edit = React.createClass
     e.preventDefault()
     if index > 0
       @selectAdjacent e.target, 'prev'
-      if index is ingredients.length - 1 and _.isEmpty(ingredients[index])
-        @setState newIngredients: _.first(ingredients, ingredients.length - 1)
+      if index is ingredients.length - 1 and _.isEmpty ingredients[index]
+        @setState newIngredients: _.first ingredients, ingredients.length - 1
 
   selectAdjacent: (el, direction) ->
     $(el).closest('.form-group')[direction]('.form-group').find('input').focus()
 
   handleRemove: (index, e) ->
-    @setState newIngredients: _.reject(@state.newIngredients, (_, i) -> i is index)
+    @setState newIngredients: _.reject @state.newIngredients, (_, i) -> i is index

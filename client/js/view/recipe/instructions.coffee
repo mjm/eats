@@ -11,7 +11,7 @@ exports.View = View = React.createClass
     if _.isEmpty(@props.instructions) and @props.showEmptyText isnt false
       `<div className="view" onClick={this.props.onClick}>Click to add instructions.</div>`
     else
-      converted = marked(@props.instructions or '')
+      converted = marked @props.instructions or ''
       `<div className="view" dangerouslySetInnerHTML={{__html: converted}} onClick={this.props.onClick} />`
 
 exports.Edit = React.createClass

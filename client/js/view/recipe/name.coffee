@@ -19,10 +19,10 @@ exports.Edit = React.createClass
 
   handleSubmit: (e) ->
     e.preventDefault()
-    @props.onSave(@state.newName)
+    @props.onSave @state.newName
 
   handleCancel: ->
-    @props.onSave(@props.name)
+    @props.onSave @props.name
 
   render: ->
     `<form onSubmit={this.handleSubmit}>

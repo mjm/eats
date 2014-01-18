@@ -18,6 +18,6 @@ TagList = React.createClass
     </ul>`
 
   handleSelect: (tag) ->
-    @props.onSelect(tag)
+    @props.onSelect tag
 
 module.exports = TagList

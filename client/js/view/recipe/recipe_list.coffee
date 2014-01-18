@@ -10,7 +10,7 @@ RecipeList = React.createClass
       active: recipe.id is @props.selectedRecipe?.id
 
   renderRecipe: (recipe) ->
-    handleSelect = @handleSelectRecipe.bind(this, recipe)
+    handleSelect = @handleSelectRecipe.bind @, recipe
     `<a
       href="javascript:;"
       onClick={handleSelect}

@@ -27,7 +27,7 @@ Eats = React.createClass
       @forceUpdate()
 
       @state.router.on 'route:viewRecipe', (id) =>
-        @setState selectedRecipe: @state.recipes.get(id)
+        @setState selectedRecipe: @state.recipes.get id
 
       @state.router.on 'route:viewTagRecipes', (tag) =>
         @setState selectedTag: tag
@@ -35,14 +35,14 @@ Eats = React.createClass
       @state.router.on 'route:viewTagRecipe', (tag, id) =>
         @setState
           selectedTag: tag
-          selectedRecipe: @state.recipes.get(id)
+          selectedRecipe: @state.recipes.get id
 
       Backbone.history.start()
 
   render: ->
     if @state.selectedTag
       filteredRecipes = @state.recipes.filter (recipe) =>
-        _.contains(recipe.get('tags'), @state.selectedTag)
+        _.contains recipe.get('tags'), @state.selectedTag
     else
       filteredRecipes = @state.recipes
 
@@ -84,7 +84,7 @@ Eats = React.createClass
     @forceUpdate()
 
   handleAddRecipe: ->
-    @handleSelectRecipe @state.recipes.create(tags: _.compact([@state.selectedTag]))
+    @handleSelectRecipe @state.recipes.create tags: _.compact [@state.selectedTag]
 
   handleDeleteRecipe: (recipe) ->
     recipe.destroy()

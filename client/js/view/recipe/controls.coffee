@@ -9,6 +9,6 @@ Controls = React.createClass
     </div>`
 
   handleDelete: ->
-    @props.onDelete() if confirm('Are you sure you want to delete this recipe?')
+    @props.onDelete() if confirm 'Are you sure you want to delete this recipe?'
 
 module.exports = Controls

@@ -10,8 +10,8 @@ class exports.Recipe extends Backbone.Model
     tags: []
 
 class exports.Recipes extends Backbone.Collection
-  localStorage: new Backbone.LocalStorage('eats-recipes')
+  localStorage: new Backbone.LocalStorage 'eats-recipes'
   model: exports.Recipe
 
   tags: ->
-    _.uniq(_.sortBy(_.flatten(@pluck('tags'))))
+    _.uniq _.sortBy _.flatten @pluck 'tags'
