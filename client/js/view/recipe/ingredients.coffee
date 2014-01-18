@@ -51,6 +51,9 @@ EditIngredient = React.createClass
   handleCancel: (e) ->
     @props.onCancel e
 
+  handleSubmit: (e) ->
+    @props.onSubmit e
+
   handleKeyDown: (e) ->
     if e.keyCode is key.DOWN
       @props.onDown e
@@ -71,6 +74,7 @@ exports.Edit = React.createClass
       ingredient: ingredient
       autoFocus: index is 0
       onChange: @handleChange.bind @, index
+      onSubmit: @handleSubmit
       onCancel: @handleCancel
       onDown: @handleDown.bind @, index
       onUp: @handleUp.bind @, index
