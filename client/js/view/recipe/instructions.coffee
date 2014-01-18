@@ -1,7 +1,7 @@
 `/** @jsx React.DOM */`
 
-React = require 'react'
-_ = require 'lodash'
+React  = require 'react'
+_      = require 'lodash'
 marked = require 'marked'
 
 exports.View = View = React.createClass

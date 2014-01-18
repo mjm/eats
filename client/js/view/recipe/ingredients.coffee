@@ -1,7 +1,7 @@
 `/** @jsx React.DOM */`
 
 React = require 'react'
-_ = require 'lodash'
+_     = require 'lodash'
 
 key = require '../../util/key'
 

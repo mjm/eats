@@ -1,4 +1,4 @@
 React = require 'react'
-Eats = require './view/Eats'
+Eats = require './view/eats'
 
 React.renderComponent Eats(), document.body

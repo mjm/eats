@@ -6,14 +6,14 @@ Backbone = require 'backbone'
 React    = require 'react'
 _        = require 'lodash'
 
-{Recipe, Recipes} = require '../model/Recipe'
+{Recipe, Recipes} = require '../model/recipe'
 
-NavBar     = require './NavBar'
-Router     = require './recipe/Router'
-AddRecipe  = require './recipe/AddRecipe'
-TagList    = require './recipe/TagList'
-RecipeList = require './recipe/RecipeList'
-ViewRecipe = require './recipe/ViewRecipe'
+NavBar     = require './nav_bar'
+Router     = require './recipe/router'
+AddRecipe  = require './recipe/add_recipe'
+TagList    = require './recipe/tag_list'
+RecipeList = require './recipe/recipe_list'
+ViewRecipe = require './recipe/view_recipe'
 
 Eats = React.createClass
   getInitialState: ->

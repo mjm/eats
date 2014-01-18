@@ -3,7 +3,6 @@
 React = require 'react/addons'
 {classSet} = React.addons
 
-recipeClasses = 
 RecipeList = React.createClass
   recipeClasses: (recipe) ->
     classSet
@@ -26,6 +25,6 @@ RecipeList = React.createClass
     </div>`
 
   handleSelectRecipe: (recipe) ->
-    @props.onSelectRecipe(recipe)
+    @props.onSelectRecipe recipe
 
 module.exports = RecipeList

@@ -4,11 +4,11 @@ require './view_recipe.less'
 
 React = require 'react'
 
-{Edit: EditName, View: ViewName}                 = require './Name'
-{Edit: EditIngredients, View: ViewIngredients}   = require './Ingredients'
-{Edit: EditInstructions, View: ViewInstructions} = require './Instructions'
-{Edit: EditTags, View: ViewTags}                 = require './Tags'
-Controls = require './Controls'
+{Edit: EditName,         View: ViewName}         = require './name'
+{Edit: EditIngredients,  View: ViewIngredients}  = require './ingredients'
+{Edit: EditInstructions, View: ViewInstructions} = require './instructions'
+{Edit: EditTags,         View: ViewTags}         = require './tags'
+Controls = require './controls'
 
 ViewRecipe = React.createClass
   getInitialState: ->
