@@ -2,13 +2,15 @@
 
 React = require 'react'
 
-key = require '../../util/key'
+EditKeys = require '../common/edit_keys'
 
 exports.View = React.createClass
   render: ->
     `<h1 className="panel-title recipe-name" onClick={this.props.onClick}>{this.props.name}</h1>`
 
 exports.Edit = React.createClass
+  mixins: [EditKeys]
+
   getInitialState: ->
     newName: @props.name
 
@@ -19,10 +21,8 @@ exports.Edit = React.createClass
     e.preventDefault()
     @props.onSave(@state.newName)
 
-  handleKeyDown: (e) ->
-    if e.keyCode is key.ESC
-      e.preventDefault()
-      @props.onSave(@props.name)
+  handleCancel: ->
+    @props.onSave(@props.name)
 
   render: ->
     `<form onSubmit={this.handleSubmit}>
@@ -30,7 +30,7 @@ exports.Edit = React.createClass
         className="form-control"
         type="text"
         onChange={this.handleChange}
-        onKeyDown={this.handleKeyDown}
+        onKeyDown={this.handleEditKeys}
         value={this.state.newName}
         autoFocus />
     </form>`

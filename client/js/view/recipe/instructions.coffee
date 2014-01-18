@@ -4,6 +4,8 @@ React  = require 'react'
 _      = require 'lodash'
 marked = require 'marked'
 
+EditKeys = require '../common/edit_keys'
+
 exports.View = View = React.createClass
   render: ->
     if _.isEmpty(@props.instructions) and @props.showEmptyText isnt false
@@ -13,6 +15,8 @@ exports.View = View = React.createClass
       `<div className="view" dangerouslySetInnerHTML={{__html: converted}} onClick={this.props.onClick} />`
 
 exports.Edit = React.createClass
+  mixins: [EditKeys]
+
   getInitialState: ->
     newInstructions: @props.instructions
 
@@ -20,7 +24,7 @@ exports.Edit = React.createClass
     `<div className="row edit">
       <div className="col-md-6">
         <form action="#" onSubmit={this.handleSubmit}>
-          <textarea autoFocus rows="12" className="form-control" onChange={this.handleChange} value={this.state.newInstructions} />
+          <textarea autoFocus rows="12" className="form-control" onKeyDown={this.handleEditKeys} onChange={this.handleChange} value={this.state.newInstructions} />
           <div className="buttons">
             <button type="submit" className="btn btn-primary btn-sm">Save</button>
             <button type="button" className="btn btn-link btn-sm" onClick={this.handleCancel}>Cancel</button>

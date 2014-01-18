@@ -4,6 +4,7 @@ React = require 'react'
 _     = require 'lodash'
 
 key = require '../../util/key'
+EditKeys = require '../common/edit_keys'
 
 Container = React.createClass
   render: ->
@@ -27,6 +28,8 @@ exports.View = React.createClass
     </Container>`
 
 EditIngredient = React.createClass
+  mixins: [EditKeys]
+
   render: ->
     `<div className="form-group">
       <div className="input-group">
@@ -45,13 +48,16 @@ EditIngredient = React.createClass
       </div>
     </div>`
 
+  handleCancel: (e) ->
+    @props.onCancel e
+
   handleKeyDown: (e) ->
-    if e.keyCode is key.ESC
-      @props.onEscape e
-    else if e.keyCode is key.DOWN
+    if e.keyCode is key.DOWN
       @props.onDown e
     else if e.keyCode is key.UP
       @props.onUp e
+    else
+      @handleEditKeys e
 
 exports.Edit = React.createClass
   getInitialState: ->
@@ -65,7 +71,7 @@ exports.Edit = React.createClass
       ingredient: ingredient
       autoFocus: index is 0
       onChange: @handleChange.bind @, index
-      onEscape: @handleEsc
+      onCancel: @handleCancel
       onDown: @handleDown.bind @, index
       onUp: @handleUp.bind @, index
       onRemove: @handleRemove.bind @, index
@@ -92,10 +98,6 @@ exports.Edit = React.createClass
 
   handleCancel: ->
     @props.onSave(@props.ingredients)
-
-  handleEsc: (e) ->
-    e.preventDefault()
-    @handleCancel()
 
   handleDown: (index, e) ->
     e.preventDefault()

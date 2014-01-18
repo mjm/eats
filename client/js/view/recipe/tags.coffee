@@ -4,6 +4,7 @@ React = require 'react'
 _     = require 'lodash'
 
 key = require '../../util/key'
+EditKeys = require '../common/edit_keys'
 
 exports.View = React.createClass
   renderTag: (tag) ->
@@ -17,6 +18,8 @@ exports.View = React.createClass
     </div>`
 
 exports.Edit = React.createClass
+  mixins: [EditKeys]
+
   getInitialState: ->
     newTags: _.clone(@props.tags)
 
@@ -46,9 +49,8 @@ exports.Edit = React.createClass
     if e.keyCode is key.BACKSPACE and _.isEmpty(_.last(@state.newTags))
       e.preventDefault()
       @setState newTags: _.first(@state.newTags, @state.newTags.length - 1)
-    else if e.keyCode is key.ESC
-      e.preventDefault()
-      @handleCancel()
+    else
+      @handleEditKeys e
 
   handleCancel: ->
       @props.onSave @props.tags

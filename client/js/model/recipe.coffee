@@ -6,6 +6,7 @@ _ = require 'lodash'
 class exports.Recipe extends Backbone.Model
   defaults:
     name: 'Unnamed Recipe'
+    ingredients: []
     tags: []
 
 class exports.Recipes extends Backbone.Collection
