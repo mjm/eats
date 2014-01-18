@@ -1,0 +1,39 @@
+.view-recipe {
+  & > .panel-heading, .ingredients, .instructions .view {
+    cursor: pointer;
+  }
+
+  > .panel-footer {
+    padding: 0 15px;
+  }
+
+  .tags {
+    cursor: pointer;
+    padding-top: 6px;
+
+    .label {
+      display: inline-block;
+      margin-right: 7px;
+      font-size: 12.5px;
+    }
+
+    input {
+      width: 50%;
+      margin-bottom: 6px;
+    }
+
+    button {
+      margin-bottom: 6px;
+
+      &:first-of-type {
+        margin-left: 6px;
+      }
+    }
+  }
+
+  .instructions {
+    .buttons {
+      margin-top: 10px;
+    }
+  }
+}

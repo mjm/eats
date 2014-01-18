@@ -1,0 +1,24 @@
+{
+  "name": "eats",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD",
+  "dependencies": {
+    "envify": "~0.2.0",
+    "react": "~0.8.0",
+    "lodash": "~2.4.1",
+    "marked": "~0.3.0",
+    "backbone": "~1.1.0",
+    "backbone.localstorage": "~1.1.7"
+  },
+  "devDependencies": {
+    "coffeeify": "~0.5.2",
+    "reactify": "~0.5.0",
+    "node-lessify": "0.0.3"
+  }
+}
