@@ -27,6 +27,7 @@ exports.View = React.createClass
         : <ul>{ingredients.map(this.renderIngredient)}</ul>}
     </Container>`
 
+
 EditIngredient = React.createClass
   mixins: [EditKeys]
 
@@ -56,11 +57,17 @@ EditIngredient = React.createClass
 
   handleKeyDown: (e) ->
     if e.keyCode is key.DOWN
+      e.preventDefault()
       @props.onDown e
     else if e.keyCode is key.UP
+      e.preventDefault()
       @props.onUp e
+    else if e.keyCode is key.ENTER
+      e.preventDefault()
+      @props.onEnter e
     else
       @handleEditKeys e
+
 
 exports.Edit = React.createClass
   getInitialState: ->
@@ -76,8 +83,9 @@ exports.Edit = React.createClass
       onChange: @handleChange.bind @, index
       onSubmit: @handleSubmit
       onCancel: @handleCancel
-      onDown: @handleDown.bind @, index
-      onUp: @handleUp.bind @, index
+      onDown:   @handleDown.bind   @, index
+      onUp:     @handleUp.bind     @, index
+      onEnter:  @handleEnter.bind  @, index
       onRemove: @handleRemove.bind @, index
 
   render: ->
@@ -104,7 +112,6 @@ exports.Edit = React.createClass
     @props.onSave @props.ingredients
 
   handleDown: (index, e) ->
-    e.preventDefault()
     if index + 1 < @state.newIngredients.length
       @selectAdjacent e.target, 'next'
     else unless _.isEmpty @state.newIngredients[index]
@@ -114,11 +121,16 @@ exports.Edit = React.createClass
   handleUp: (index, e) ->
     ingredients = @state.newIngredients
 
-    e.preventDefault()
     if index > 0
       @selectAdjacent e.target, 'prev'
       if index is ingredients.length - 1 and _.isEmpty ingredients[index]
         @setState newIngredients: _.first ingredients, ingredients.length - 1
+
+  handleEnter: (index, e) ->
+    ingredients = _.clone @state.newIngredients
+    ingredients.splice index+1, 0, ''
+    @setState newIngredients: ingredients, =>
+      $(@getDOMNode()).find(".form-group:eq(#{index+1}) input").focus()
 
   selectAdjacent: (el, direction) ->
     $(el).closest('.form-group')[direction]('.form-group').find('input').focus()
