@@ -8,25 +8,27 @@
   }
 
   .tags {
+    @padding: 6px;
+
     cursor: pointer;
-    padding-top: 6px;
+    padding-top: @padding;
 
     .label {
       display: inline-block;
-      margin-right: 7px;
+      margin-right: @padding;
       font-size: 12.5px;
     }
 
     input {
       width: 50%;
-      margin-bottom: 6px;
+      margin-bottom: @padding;
     }
 
     button {
-      margin-bottom: 6px;
+      margin-bottom: @padding;
 
       &:first-of-type {
-        margin-left: 6px;
+        margin-left: @padding;
       }
     }
   }
