@@ -33,5 +33,4 @@ way to display a list of all available tags, so we collect all the unique tags
 from every recipe. This is probably rather inefficient if there are many
 recipes or tags, and so it's probably not a good long-term solution.
 
-      tags: ->
-        _.uniq _.sortBy _.flatten @pluck 'tags'
+      tags: -> _.uniq _.sortBy _.flatten @pluck 'tags'
