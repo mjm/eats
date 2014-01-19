@@ -16,8 +16,7 @@ Container = React.createClass
     </div>`
 
 exports.View = React.createClass
-  renderIngredient: (ingredient, index) ->
-    `<li key={index}>{ingredient}</li>`
+  renderIngredient: (ingredient, index) -> `<li key={index}>{ingredient}</li>`
 
   render: ->
     ingredients = @props.ingredients
@@ -49,14 +48,9 @@ EditIngredient = React.createClass
       </div>
     </div>`
 
-  handleCancel: (e) ->
-    @props.onCancel e
-
-  handleSubmit: (e) ->
-    @props.onSubmit e
-
-  handleChange: (e) ->
-    @props.onChange e.target.value
+  handleCancel: (e) -> @props.onCancel e
+  handleSubmit: (e) -> @props.onSubmit e
+  handleChange: (e) -> @props.onChange e.target.value
 
   handleKeyDown: (e) ->
     if e.keyCode is key.DOWN
@@ -68,16 +62,16 @@ EditIngredient = React.createClass
     else if e.keyCode is key.ENTER
       e.preventDefault()
       @props.onEnter e
+    else if e.keyCode is key.BACKSPACE and _.isEmpty @props.ingredient
+      e.preventDefault()
+      @props.onRemove e
     else
       @handleEditKeys e
 
 
 exports.Edit = React.createClass
   getInitialState: ->
-    if _.isEmpty @props.ingredients
-      newIngredients: ['']
-    else
-      newIngredients: _.clone @props.ingredients
+    newIngredients: if _.isEmpty @props.ingredients then [''] else _.clone @props.ingredients
 
   renderIngredient: (ingredient, index) ->
     EditIngredient
@@ -94,7 +88,7 @@ exports.Edit = React.createClass
 
   render: ->
     `<Container>
-      <form action="#" onSubmit={this.handleSubmit} role="form">
+      <form action="javascript:;" onSubmit={this.handleSubmit} role="form">
         {this.state.newIngredients.map(this.renderIngredient)}
         <p>
           <button type="submit" className="btn btn-primary btn-sm">Save</button>
@@ -104,16 +98,10 @@ exports.Edit = React.createClass
     </Container>`
 
   handleChange: (index, value) ->
-    ingredients = _.clone @state.newIngredients
-    ingredients[index] = value
-    @setState newIngredients: ingredients
+    @setState newIngredients: _.tap _.clone(@state.newIngredients), (ing) -> ing[index] = value
 
-  handleSubmit: (e) ->
-    e.preventDefault()
-    @props.onSave _.without @state.newIngredients, ''
-
-  handleCancel: ->
-    @props.onSave @props.ingredients
+  handleSubmit: -> @props.onSave _.without @state.newIngredients, ''
+  handleCancel: -> @props.onSave @props.ingredients
 
   handleDown: (index, e) ->
     if index + 1 < @state.newIngredients.length
@@ -134,10 +122,14 @@ exports.Edit = React.createClass
     ingredients = _.clone @state.newIngredients
     ingredients.splice index+1, 0, ''
     @setState newIngredients: ingredients, =>
-      $(@getDOMNode()).find(".form-group:eq(#{index+1}) input").focus()
+      @selectAtIndex index+1
+
+  handleRemove: (index, e) ->
+    @setState newIngredients: _.reject(@state.newIngredients, (_, i) -> i is index), =>
+      @selectAtIndex Math.max 0, index - 1
 
   selectAdjacent: (el, direction) ->
     $(el).closest('.form-group')[direction]('.form-group').find('input').focus()
 
-  handleRemove: (index, e) ->
-    @setState newIngredients: _.reject @state.newIngredients, (_, i) -> i is index
+  selectAtIndex: (index) ->
+    $(@getDOMNode()).find(".form-group:eq(#{index}) input").focus()
