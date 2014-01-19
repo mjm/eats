@@ -152,7 +152,10 @@ another for focusing a specific index.
 
     EditIngredient = React.createClass
 
-Each ingredient has the same edit keys as all our other editing controls.
+Each ingredient has the same [edit keys][editkeys] as all our other editing
+controls.
+
+[editkeys]: ../../common/edit_keys.litcoffee
 
       mixins: [EditKeys]
 

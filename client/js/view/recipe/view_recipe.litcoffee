@@ -1,7 +1,9 @@
 # ViewRecipe: Recipe Viewer and Editor
 
-The ViewRecipe component allows the user to view or edit a single recipe.  It
-does so by allowing at most one field to be in edit mode at any given time.
+The ViewRecipe component allows the user to view or edit a single [recipe][].
+It does so by allowing at most one field to be in edit mode at any given time.
+
+[recipe]: ../../model/recipe.litcoffee
 
     `/** @jsx React.DOM */`
 
@@ -12,8 +14,14 @@ does so by allowing at most one field to be in edit mode at any given time.
 
     Controls = require './controls'
 
-Each field has a separate component for viewing or editing. We will render the
-appropriate component based on the `editing` key in our state.
+Each field ([name][], [ingredients][], [instructions][], [tags][]) has a
+separate component for viewing or editing. We will render the appropriate
+component based on the `editing` key in our state.
+
+[name]: field/name.litcoffee
+[ingredients]: field/ingredients.litcoffee
+[instructions]: field/instructions.litcoffee
+[tags]: field/tags.litcoffee
 
     {Edit: EditName,         View: ViewName}         = require './field/name'
     {Edit: EditIngredients,  View: ViewIngredients}  = require './field/ingredients'
@@ -33,8 +41,11 @@ same field on a different recipe, so we reset this when switching.
       componentWillReceiveProps: (nextProps) ->
         @setState editing: null if nextProps.recipe.cid isnt @props.recipe.cid
 
-This component displays as a Bootstrap panel with the name in the header,
-ingredients and instructions in the body, and tags and controls in the footer.
+This component displays as a Bootstrap panel with the [name][] in the header,
+[ingredients][] and [instructions][] in the body, and [tags][] and [controls][]
+in the footer.
+
+[controls]: controls.litcoffee
 
       render: ->
         recipe = @props.recipe.toJSON()

@@ -19,8 +19,10 @@ editing mode.
 
     exports.Edit = React.createClass
 
-We use our common `EditKeys` mixin to provide save and cancel keyboard
-controls.
+We use our common [`EditKeys`][editkeys] mixin to provide save and cancel
+keyboard controls.
+
+[editkeys]: ../../common/edit_keys.litcoffee
 
       mixins: [EditKeys]
 

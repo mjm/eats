@@ -1,11 +1,13 @@
 # Eats: Top-Level React Component
 
 The top-level component is mainly responsible for setting up the overall
-structure of view. This include the navigation bar and whatever content view is
-appropriate given the state of the application.
+structure of view. This includes the [navigation bar][navbar] and whatever
+content view is appropriate given the state of the application.
 
 The Eats component also holds global state of the application. It uses a Backbone
 router to keep this state in sync with the current URL.
+
+[navbar]: nav_bar.litcoffee
 
     `/** @jsx React.DOM */`
 
@@ -23,9 +25,12 @@ router to keep this state in sync with the current URL.
 
     Eats = React.createClass
 
-To setup the application fresh, we create the router and an empty recipes
-collection. Unless set later by the router, we also begin with no selected
-recipe or tag filter.
+To setup the application fresh, we create the [router][] and an empty
+[`Recipes`][recipes] collection. Unless set later by the router, we also begin
+with no selected recipe or tag filter.
+
+[router]: recipe/router.litcoffee
+[recipes]: ../model/recipe.litcoffee
 
       getInitialState: ->
         router: new Router
@@ -55,7 +60,9 @@ view, and start listening for browser history events.
           Backbone.history.start()
 
 The top-level component renders the navigation bar that appears at the top of the
-window as well as the main recipes content view.
+window as well as the main [recipes content view][index].
+
+[index]: recipe/index.litcoffee
 
       render: ->
         `<div>

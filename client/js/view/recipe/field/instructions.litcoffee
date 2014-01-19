@@ -39,7 +39,10 @@ preview, we convert the Markdown instructions to HTML and display them.
 
     exports.Edit = React.createClass
 
-The instructions editor uses the same edit keys as the other editor controls.
+The instructions editor uses the same [edit keys][editkeys] as the other editor
+controls.
+
+[editkeys]: ../../common/edit_keys.litcoffee
 
       mixins: [EditKeys]
 

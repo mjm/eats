@@ -28,8 +28,13 @@ to be stateless.
           filteredRecipes = @props.recipes
 
 We display the recipe manager in two columns. On the left, there is a button to
-add a recipe, the list of tags to filter, and the list of recipes to view. On
-the right, we show the currently selected recipe.
+[add a recipe][add], the [list of tags][tags] to filter, and the [list of
+recipes][list] to view. On the right, we show the [currently selected recipe][view].
+
+[add]: add_recipe.litcoffee
+[tags]: tag_list.litcoffee
+[list]: recipe_list.litcoffee
+[view]: view_recipe.litcoffee
 
         `<div className="row">
           <div className="col-md-3">
@@ -52,7 +57,10 @@ the right, we show the currently selected recipe.
         </div>`
 
 When adding a recipe, we make sure it has the currently selected tag, if there
-is one. The parent component makes sure the new recipe becomes selected.
+is one. The [parent component][parent] makes sure the new recipe becomes
+selected.
+
+[parent]: ../eats.litcoffee
 
       handleAddRecipe: ->
         @props.onAddRecipe @props.recipes.create tags: _.compact [@props.selectedTag]
