@@ -2,7 +2,7 @@
 
 React = require 'react'
 
-EditKeys = require '../common/edit_keys'
+EditKeys = require '../../common/edit_keys'
 
 exports.View = React.createClass
   render: ->

@@ -3,8 +3,8 @@
 React = require 'react'
 _     = require 'lodash'
 
-key = require '../../util/key'
-EditKeys = require '../common/edit_keys'
+key = require '../../../util/key'
+EditKeys = require '../../common/edit_keys'
 
 exports.View = React.createClass
   renderTag: (tag) ->

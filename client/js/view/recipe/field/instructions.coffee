@@ -4,7 +4,7 @@ React  = require 'react'
 _      = require 'lodash'
 marked = require 'marked'
 
-EditKeys = require '../common/edit_keys'
+EditKeys = require '../../common/edit_keys'
 
 exports.View = View = React.createClass
   render: ->

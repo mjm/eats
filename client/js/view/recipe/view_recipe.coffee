@@ -5,10 +5,10 @@ require './view_recipe.less'
 React = require 'react'
 _     = require 'lodash'
 
-{Edit: EditName,         View: ViewName}         = require './name'
-{Edit: EditIngredients,  View: ViewIngredients}  = require './ingredients'
-{Edit: EditInstructions, View: ViewInstructions} = require './instructions'
-{Edit: EditTags,         View: ViewTags}         = require './tags'
+{Edit: EditName,         View: ViewName}         = require './field/name'
+{Edit: EditIngredients,  View: ViewIngredients}  = require './field/ingredients'
+{Edit: EditInstructions, View: ViewInstructions} = require './field/instructions'
+{Edit: EditTags,         View: ViewTags}         = require './field/tags'
 Controls = require './controls'
 
 ViewRecipe = React.createClass
