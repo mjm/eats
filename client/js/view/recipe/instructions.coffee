@@ -16,15 +16,19 @@ exports.View = View = React.createClass
 
 exports.Edit = React.createClass
   mixins: [EditKeys]
-
-  getInitialState: ->
-    newInstructions: @props.instructions
+  getInitialState: -> newInstructions: @props.instructions
 
   render: ->
     `<div className="row edit">
       <div className="col-md-6">
-        <form action="#" onSubmit={this.handleSubmit}>
-          <textarea autoFocus rows="12" className="form-control" onKeyDown={this.handleEditKeys} onChange={this.handleChange} value={this.state.newInstructions} />
+        <form action="javascript:;" onSubmit={this.handleSubmit}>
+          <textarea
+            autoFocus
+            rows="12"
+            className="form-control"
+            onKeyDown={this.handleEditKeys}
+            onChange={this.handleChange}
+            value={this.state.newInstructions} />
           <div className="buttons">
             <button type="submit" className="btn btn-primary btn-sm">Save</button>
             <button type="button" className="btn btn-link btn-sm" onClick={this.handleCancel}>Cancel</button>
@@ -36,12 +40,6 @@ exports.Edit = React.createClass
       </div>
     </div>`
 
-  handleSubmit: (e) ->
-    e.preventDefault()
-    @props.onSave @state.newInstructions
-
-  handleCancel: ->
-    @props.onSave @props.instructions
-
-  handleChange: (e) ->
-    @setState newInstructions: e.target.value
+  handleSubmit: -> @props.onSave @state.newInstructions
+  handleCancel: -> @props.onSave @props.instructions
+  handleChange: (e) -> @setState newInstructions: e.target.value

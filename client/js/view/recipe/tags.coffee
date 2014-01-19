@@ -8,7 +8,7 @@ EditKeys = require '../common/edit_keys'
 
 exports.View = React.createClass
   renderTag: (tag) ->
-    `<span className="label label-primary">{tag}</span>`
+    `<span key={tag} className="label label-primary">{tag}</span>`
 
   render: ->
     `<div className="tags" onClick={this.props.onClick}>
@@ -19,13 +19,11 @@ exports.View = React.createClass
 
 exports.Edit = React.createClass
   mixins: [EditKeys]
-
-  getInitialState: ->
-    newTags: _.clone @props.tags
+  getInitialState: -> newTags: _.clone @props.tags
 
   render: ->
     `<div className="tags">
-      <form className="form-inline" action="#" onSubmit={this.handleSubmit}>
+      <form className="form-inline" action="javascript:;" onSubmit={this.handleSubmit}>
         <input
           type="text"
           className="form-control input-sm"
@@ -38,9 +36,8 @@ exports.Edit = React.createClass
       </form>
     </div>`
 
-  handleSubmit: (e) ->
-    e.preventDefault()
-    @props.onSave _.uniq _.without @state.newTags, ''
+  handleSubmit: -> @props.onSave _.uniq _.without @state.newTags, ''
+  handleCancel: -> @props.onSave @props.tags
 
   handleChange: (e) ->
     @setState newTags: e.target.value.split(",").map (tag) -> tag.trim()
@@ -51,6 +48,3 @@ exports.Edit = React.createClass
       @setState newTags: @state.newTags[0..-2]
     else
       @handleEditKeys e
-
-  handleCancel: ->
-      @props.onSave @props.tags

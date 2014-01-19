@@ -16,8 +16,8 @@ Container = React.createClass
     </div>`
 
 exports.View = React.createClass
-  renderIngredient: (ingredient) ->
-    `<li>{ingredient}</li>`
+  renderIngredient: (ingredient, index) ->
+    `<li key={index}>{ingredient}</li>`
 
   render: ->
     ingredients = @props.ingredients
@@ -37,7 +37,7 @@ EditIngredient = React.createClass
         <input
           type="text"
           className="form-control input-sm"
-          onChange={this.props.onChange}
+          onChange={this.handleChange}
           onKeyDown={this.handleKeyDown}
           autoFocus={this.props.autoFocus}
           value={this.props.ingredient} />
@@ -54,6 +54,9 @@ EditIngredient = React.createClass
 
   handleSubmit: (e) ->
     @props.onSubmit e
+
+  handleChange: (e) ->
+    @props.onChange e.target.value
 
   handleKeyDown: (e) ->
     if e.keyCode is key.DOWN
@@ -78,6 +81,7 @@ exports.Edit = React.createClass
 
   renderIngredient: (ingredient, index) ->
     EditIngredient
+      key: index
       ingredient: ingredient
       autoFocus: index is 0
       onChange: @handleChange.bind @, index
@@ -99,9 +103,9 @@ exports.Edit = React.createClass
       </form>
     </Container>`
 
-  handleChange: (index, e) ->
+  handleChange: (index, value) ->
     ingredients = _.clone @state.newIngredients
-    ingredients[index] = e.target.value
+    ingredients[index] = value
     @setState newIngredients: ingredients
 
   handleSubmit: (e) ->

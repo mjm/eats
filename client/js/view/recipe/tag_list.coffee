@@ -1,13 +1,15 @@
 `/** @jsx React.DOM */`
 
 React = require 'react'
+_     = require 'lodash'
 
 TagList = React.createClass
   renderTag: (tag) ->
-    `<li>
+    display = tag or 'None'
+    `<li key={display}>
       {tag === this.props.selectedTag
-        ? tag || 'None'
-        : <a href="javascript:;" onClick={this.handleSelect.bind(this, tag)}>{tag || 'None'}</a>}
+        ? display
+        : <a href="javascript:;" onClick={_.partial(this.props.onSelect, tag)}>{display}</a>}
     </li>`
 
   render: ->
@@ -16,8 +18,5 @@ TagList = React.createClass
       <li><strong>Filter:</strong></li>
       {filters.map(this.renderTag)}
     </ul>`
-
-  handleSelect: (tag) ->
-    @props.onSelect tag
 
 module.exports = TagList

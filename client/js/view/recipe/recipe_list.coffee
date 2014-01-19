@@ -1,6 +1,7 @@
 `/** @jsx React.DOM */`
 
 React = require 'react/addons'
+_     = require 'lodash'
 {classSet} = React.addons
 
 RecipeList = React.createClass
@@ -10,10 +11,9 @@ RecipeList = React.createClass
       active: recipe.id is @props.selectedRecipe?.id
 
   renderRecipe: (recipe) ->
-    handleSelect = @handleSelectRecipe.bind @, recipe
     `<a
       href="javascript:;"
-      onClick={handleSelect}
+      onClick={_.partial(this.props.onSelectRecipe, recipe)}
       key={recipe.id}
       className={this.recipeClasses(recipe)}>
         {recipe.get('name')}
@@ -23,8 +23,5 @@ RecipeList = React.createClass
     `<div className="list-group">
       {this.props.recipes.map(this.renderRecipe)}
     </div>`
-
-  handleSelectRecipe: (recipe) ->
-    @props.onSelectRecipe recipe
 
 module.exports = RecipeList

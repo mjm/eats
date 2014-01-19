@@ -3,6 +3,7 @@
 require './view_recipe.less'
 
 React = require 'react'
+_     = require 'lodash'
 
 {Edit: EditName,         View: ViewName}         = require './name'
 {Edit: EditIngredients,  View: ViewIngredients}  = require './ingredients'
@@ -11,8 +12,7 @@ React = require 'react'
 Controls = require './controls'
 
 ViewRecipe = React.createClass
-  getInitialState: ->
-    editing: null
+  getInitialState: -> editing: null
 
   componentWillReceiveProps: (nextProps) ->
     @setState editing: null if nextProps.recipe.cid isnt @props.recipe.cid
@@ -21,8 +21,8 @@ ViewRecipe = React.createClass
     recipe = @props.recipe.toJSON()
     editing = @state.editing
 
-    editHandler = (field) => @handleEdit.bind @, field
-    saveHandler = (field) => @handleSave.bind @, field
+    editHandler = (field) => _.partial @handleEdit, field
+    saveHandler = (field) => _.partial @handleSave, field
 
     `<div className="col-md-9">
       <div className="panel panel-default view-recipe">
@@ -51,15 +51,12 @@ ViewRecipe = React.createClass
       </div>
     </div>`
 
-  handleEdit: (field) ->
-    @setState editing: field
+  handleDelete: -> @props.onDelete @props.recipe
+  handleEdit: (field) -> @setState editing: field
 
   handleSave: (field, newValue) ->
     @props.recipe.set field, newValue
     @props.onUpdate @props.recipe
     @setState editing: null
-
-  handleDelete: ->
-    @props.onDelete @props.recipe
 
 module.exports = ViewRecipe

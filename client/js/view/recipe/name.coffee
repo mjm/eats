@@ -10,22 +10,10 @@ exports.View = React.createClass
 
 exports.Edit = React.createClass
   mixins: [EditKeys]
-
-  getInitialState: ->
-    newName: @props.name
-
-  handleChange: (e) ->
-    @setState newName: e.target.value
-
-  handleSubmit: (e) ->
-    e.preventDefault()
-    @props.onSave @state.newName
-
-  handleCancel: ->
-    @props.onSave @props.name
+  getInitialState: -> newName: @props.name
 
   render: ->
-    `<form onSubmit={this.handleSubmit}>
+    `<form action="javascript:;" onSubmit={this.handleSubmit}>
       <input
         className="form-control"
         type="text"
@@ -34,3 +22,8 @@ exports.Edit = React.createClass
         value={this.state.newName}
         autoFocus />
     </form>`
+
+  handleSubmit: -> @props.onSave @state.newName
+  handleCancel: -> @props.onSave @props.name
+
+  handleChange: (e) -> @setState newName: e.target.value
