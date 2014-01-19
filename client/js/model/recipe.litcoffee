@@ -11,7 +11,7 @@ recipes.
 
 ## Model: `Recipe`
 
-The Recipe model is very simple. We simply specify a few default attributes.
+The Recipe model is very basic. We simply specify a few default attributes.
 
     class exports.Recipe extends Backbone.Model
       defaults:
