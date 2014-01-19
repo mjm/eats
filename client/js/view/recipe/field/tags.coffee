@@ -12,6 +12,7 @@ exports.View = React.createClass
 
   render: ->
     `<div className="tags" onClick={this.props.onClick}>
+      <i className="fa fa-tags" />{' '}
       {_.isEmpty(this.props.tags)
         ? <span>No tags.</span>
         : this.props.tags.map(this.renderTag)}

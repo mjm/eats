@@ -16,14 +16,17 @@ Container = React.createClass
     </div>`
 
 exports.View = React.createClass
-  renderIngredient: (ingredient, index) -> `<li key={index}>{ingredient}</li>`
+  renderIngredient: (ingredient, index) ->
+    `<li key={index}>
+      <i className="fa-li fa fa-flask" />{' ' + ingredient}
+    </li>`
 
   render: ->
     ingredients = @props.ingredients
     `<Container onClick={this.props.onClick}>
       {_.isEmpty(ingredients)
         ? <span>Click to add ingredients.</span>
-        : <ul>{ingredients.map(this.renderIngredient)}</ul>}
+        : <ul className="fa-ul">{ingredients.map(this.renderIngredient)}</ul>}
     </Container>`
 
 
@@ -42,7 +45,7 @@ EditIngredient = React.createClass
           value={this.props.ingredient} />
         <div className="input-group-btn">
           <button type="button" className="btn btn-danger btn-sm" onClick={this.props.onRemove}>
-            <span className="glyphicon glyphicon-remove" />
+            <i className="fa fa-trash-o" />
           </button>
         </div>
       </div>

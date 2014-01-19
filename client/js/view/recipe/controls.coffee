@@ -5,7 +5,10 @@ React = require 'react'
 Controls = React.createClass
   render: ->
     `<div className="pull-right">
-      <button type="button" className="btn btn-link" onClick={this.handleDelete}>Delete</button>
+      <button type="button" className="btn btn-link" onClick={this.handleDelete}>
+        <i className="fa fa-trash-o" />
+        {' Delete'}
+      </button>
     </div>`
 
   handleDelete: ->

@@ -16,7 +16,8 @@ RecipeList = React.createClass
       onClick={_.partial(this.props.onSelectRecipe, recipe)}
       key={recipe.id}
       className={this.recipeClasses(recipe)}>
-        {recipe.get('name')}
+        <i className="fa fa-book" />
+        {' ' + recipe.get('name')}
     </a>`
 
   render: ->
