@@ -1,8 +1,8 @@
-# Router: URLs for Recipes
+# Router
 
-This router provides URL mappings for the recipes portion of the application.
-The router produces events for URL changes, which the [`Eats`][eats] component
-listens for and acts upon.
+This router provides URL mappings for the application.  The router produces
+events for URL changes, which the [`Eats`][eats] component listens for and acts
+upon.
 
 [eats]: ../eats.litcoffee
 
@@ -13,5 +13,6 @@ listens for and acts upon.
         'recipes/:id': 'viewRecipe'
         'tag/:tag/recipes': 'viewTagRecipes'
         'tag/:tag/recipes/:id': 'viewTagRecipe'
+        'plans': 'plans'
 
     module.exports = Router

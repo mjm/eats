@@ -19,9 +19,11 @@ router to keep this state in sync with the current URL.
 
     {Recipe, Recipes} = require '../model/recipe'
 
-    NavBar      = require './nav_bar'
-    Router      = require './recipe/router'
-    RecipeIndex = require './recipe/index'
+    NavBar       = require './nav_bar'
+    Router       = require './router'
+
+    RecipeIndex  = require './recipe/index'
+    PlanIndex    = require './plan/index'
 
     Eats = React.createClass
 
@@ -29,12 +31,16 @@ To setup the application fresh, we create the [router][] and an empty
 [`Recipes`][recipes] collection. Unless set later by the router, we also begin
 with no selected recipe or tag filter.
 
+The current view is determined by the `view` state property. By default, we are
+in the recipes view.
+
 [router]: recipe/router.litcoffee
 [recipes]: ../model/recipe.litcoffee
 
       getInitialState: ->
         router: new Router
         recipes: new Recipes
+        view: 'recipes'
         selectedRecipe: null
         selectedTag: null
 
@@ -47,36 +53,49 @@ happen once: when the application is first loaded.
 When the recipes are loaded, we set up the routing handlers, re-render the
 view, and start listening for browser history events.
 
-          @state.router.on 'route:viewRecipe', (id) =>
-            @setState selectedRecipe: @state.recipes.get id
-          @state.router.on 'route:viewTagRecipes', (tag) =>
-            @setState selectedTag: tag
-          @state.router.on 'route:viewTagRecipe', (tag, id) =>
-            @setState
-              selectedTag: tag
-              selectedRecipe: @state.recipes.get id
+          @setupRecipeRoutes @state.router
+          @setupPlanRoutes @state.router
 
           @forceUpdate()
           Backbone.history.start()
 
-The top-level component renders the navigation bar that appears at the top of the
-window as well as the main [recipes content view][index].
+      setupRecipeRoutes: (router) ->
+        router.on 'route:viewRecipe', (id) =>
+          @setState view: 'recipes', selectedRecipe: @state.recipes.get id
+        router.on 'route:viewTagRecipes', (tag) =>
+          @setState view: 'recipes', selectedTag: tag
+        router.on 'route:viewTagRecipe', (tag, id) =>
+          @setState
+            view: 'recipes'
+            selectedTag: tag
+            selectedRecipe: @state.recipes.get id
 
-[index]: recipe/index.litcoffee
+      setupPlanRoutes: (router) ->
+        router.on 'route:plans', => @setState view: 'plans'
+
+The top-level component renders the navigation bar that appears at the top of
+the window as well as the main content view, which is either [recipes][rindex]
+or [plans][pindex].
+
+[rindex]: recipe/index.litcoffee
+[pindex]: plan/index.litcoffee
 
       render: ->
         `<div>
           <NavBar />
           <div id="container">
-            <RecipeIndex
-              recipes={this.state.recipes}
-              selectedRecipe={this.state.selectedRecipe}
-              selectedTag={this.state.selectedTag}
-              onSelectTag={this.handleSelectTag}
-              onSelectRecipe={this.handleSelectRecipe}
-              onAddRecipe={this.handleSelectRecipe}
-              onUpdateRecipe={this.handleSelectRecipe}
-              onDeleteRecipe={_.partial(this.handleSelectRecipe, null)} />
+            {this.state.view === 'recipes' &&
+              <RecipeIndex
+                recipes={this.state.recipes}
+                selectedRecipe={this.state.selectedRecipe}
+                selectedTag={this.state.selectedTag}
+                onSelectTag={this.handleSelectTag}
+                onSelectRecipe={this.handleSelectRecipe}
+                onAddRecipe={this.handleSelectRecipe}
+                onUpdateRecipe={this.handleSelectRecipe}
+                onDeleteRecipe={_.partial(this.handleSelectRecipe, null)} />}
+            {this.state.view === 'plans' &&
+              <PlanIndex />}
           </div>
         </div>`
 
