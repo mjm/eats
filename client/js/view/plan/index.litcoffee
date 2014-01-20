@@ -16,6 +16,7 @@ this is where we will maintain them as state.
 
       getInitialState: ->
         plans: new Plans
+        selectedPlan: null
 
 When the component is mounted, we will fetch and load the collection of plans.
 When they have been loaded, we will refresh this view.
@@ -37,16 +38,18 @@ display of the [currently selected plan][viewplan].
           {this.renderViewPlan()}
         </div>`
 
-The plan list is given the list of plans as well as handler for when the user
-wishes to add a new plan.
+The plan list is given the list of plans, the currently selected plan, and some
+event handlers.
 
       renderPlanList: ->
-        `<PlanList
-          plans={this.state.plans}
-          onAdd={this.handleAddPlan} />`
+        PlanList
+          plans: @state.plans
+          selectedPlan: @state.selectedPlan
+          onAdd: @handleAddPlan
+          onSelect: @handleSelectPlan
 
       renderViewPlan: ->
-        `<div>View Plan</div>`
+        `<div>{this.state.selectedPlan && this.state.selectedPlan.get('name')}</div>`
 
 When the user hits the add plan button, we want to create a new, empty plan and
 re-render the view.
@@ -54,5 +57,11 @@ re-render the view.
       handleAddPlan: ->
         @state.plans.create {}
         @forceUpdate()
+
+When the user selects a plan from the plan list, we update our state
+appropriately.
+
+      handleSelectPlan: (plan) ->
+        @setState selectedPlan: plan
 
     module.exports = Index
