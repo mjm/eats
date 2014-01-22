@@ -7,6 +7,7 @@ recipes into meal plans.
     React = require 'react'
     {Plan, Plans} = require '../../model/plan'
     PlanList = require './plan_list'
+    ViewPlan = require './view_plan'
 
     Index = React.createClass
 
@@ -48,14 +49,29 @@ event handlers.
           onAdd: @handleAddPlan
           onSelect: @handleSelectPlan
 
+If a plan is currently selected, we show it with the [`ViewPlan`][viewplan]
+component. If there is no selection, we display a message saying so.
+
       renderViewPlan: ->
-        `<div>{this.state.selectedPlan && this.state.selectedPlan.get('name')}</div>`
+        if @state.selectedPlan
+          ViewPlan
+            plan: @state.selectedPlan
+            onUpdate: @handleUpdatePlan
+        else
+          `<div>No plan currently selected.</div>`
 
 When the user hits the add plan button, we want to create a new, empty plan and
 re-render the view.
 
       handleAddPlan: ->
         @state.plans.create {}
+        @forceUpdate()
+
+When the user makes an update to a plan, we save the plan and re-render the
+view.
+
+      handleUpdatePlan: (plan) ->
+        plan.save()
         @forceUpdate()
 
 When the user selects a plan from the plan list, we update our state
