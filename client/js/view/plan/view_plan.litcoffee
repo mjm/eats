@@ -5,8 +5,9 @@ details, and plan the meals on the plan.
 
     `/** @jsx React.DOM */`
     React = require 'react'
-    {View: ViewName, Edit: EditName} = require './field/name'
-    Meals = require './field/meals'
+    _     = require 'lodash'
+    {View: ViewName,  Edit: EditName}   = require './field/name'
+    {View: ViewMeals, Edit: EditMeals} = require './field/meals'
 
     ViewPlan = React.createClass
 
@@ -18,7 +19,7 @@ Initially we are not editing any part of the plan.
         editing = @state.editing
         `<div>
           {this.renderName(this.props.plan.get('name'), editing === 'name')}
-          {this.renderMeals(this.props.plan, editing === 'meals')}
+          {this.renderMeals(this.props.plan.get('meals'), editing === 'meals')}
         </div>`
 
 The name is shown across the top, and we show the correct view or edit
@@ -35,8 +36,13 @@ component based on the editing state.
 
 The meals are shown as a row of panels, one for each day in the plan.
 
-      renderMeals: (plan, editing) ->
-        Meals plan: plan
+      renderMeals: (meals, editing) ->
+        options = meals: meals, recipes: @props.recipes
+        if editing
+          EditMeals options
+        else
+          ViewMeals _.extend options,
+            onClick: @editHandler 'meals'
 
 We provide convenience functions for handlers that switch between viewing and
 editing.

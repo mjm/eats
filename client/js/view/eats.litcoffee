@@ -60,6 +60,8 @@ view, and start listening for browser history events.
           Backbone.history.start()
 
       setupRecipeRoutes: (router) ->
+        router.on 'route:recipes', =>
+          @setState view: 'recipes'
         router.on 'route:viewRecipe', (id) =>
           @setState view: 'recipes', selectedRecipe: @state.recipes.get id
         router.on 'route:viewTagRecipes', (tag) =>
@@ -82,7 +84,7 @@ or [plans][pindex].
 
       render: ->
         `<div>
-          <NavBar />
+          <NavBar view={this.state.view} />
           <div id="container">
             {this.state.view === 'recipes' &&
               <RecipeIndex
@@ -95,7 +97,7 @@ or [plans][pindex].
                 onUpdateRecipe={this.handleSelectRecipe}
                 onDeleteRecipe={_.partial(this.handleSelectRecipe, null)} />}
             {this.state.view === 'plans' &&
-              <PlanIndex />}
+              <PlanIndex recipes={this.state.recipes} />}
           </div>
         </div>`
 

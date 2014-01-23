@@ -56,6 +56,7 @@ component. If there is no selection, we display a message saying so.
         if @state.selectedPlan
           ViewPlan
             plan: @state.selectedPlan
+            recipes: @props.recipes
             onUpdate: @handleUpdatePlan
         else
           `<div>No plan currently selected.</div>`

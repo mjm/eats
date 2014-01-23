@@ -8,14 +8,13 @@ A Backbone model and collection for meal plans.
 
 ## Model: `Plan`
 
-A meal plan has a descriptive name, a set number of days, and a collection of
-meals for each day.
+A meal plan has a descriptive name as well as an ordered collection of days,
+each consisting of a collection of meals.
 
     class exports.Plan extends Backbone.Model
       defaults:
         name: 'Unnamed Plan'
-        dayCount: 7
-        meals: []
+        meals: [1..7].map -> []
 
 ## Collection: `Plans`
 

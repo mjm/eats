@@ -8,6 +8,7 @@
   },
   "author": "",
   "license": "BSD",
+  "repository": "https://github.com/mjm/eats",
   "dependencies": {
     "envify": "~0.2.0",
     "react": "~0.8.0",

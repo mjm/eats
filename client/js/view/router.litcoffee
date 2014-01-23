@@ -10,6 +10,7 @@ upon.
 
     class Router extends Backbone.Router
       routes:
+        'recipes': 'recipes'
         'recipes/:id': 'viewRecipe'
         'tag/:tag/recipes': 'viewTagRecipes'
         'tag/:tag/recipes/:id': 'viewTagRecipe'
