@@ -15,6 +15,11 @@ Initially we are not editing any part of the plan.
 
       getInitialState: -> editing: null
 
+If we change plans, we reset to editing mode.
+
+      componentWillReceiveProps: (newProps) ->
+        @setState editing: null if newProps.plan.cid isnt @props.plan.cid
+
       render: ->
         editing = @state.editing
         `<div>
@@ -39,7 +44,8 @@ The meals are shown as a row of panels, one for each day in the plan.
       renderMeals: (meals, editing) ->
         options = meals: meals, recipes: @props.recipes
         if editing
-          EditMeals options
+          EditMeals _.extend options,
+            onSave: @saveHandler 'meals', false
         else
           ViewMeals _.extend options,
             onClick: @editHandler 'meals'
@@ -50,10 +56,10 @@ editing.
       editHandler: (field) ->
         => @setState editing: field
 
-      saveHandler: (field) ->
+      saveHandler: (field, stopEditing = true) ->
         (value) =>
           @props.plan.set field, value
           @props.onUpdate @props.plan
-          @setState editing: null
+          @setState editing: null if stopEditing
 
     module.exports = ViewPlan

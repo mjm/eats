@@ -30,6 +30,8 @@ are different based on the mode, but the frame remains the same.
 When the user wants to add a meal to a day in the plan, we present a modal dialog
 to allow them to choose which recipe to add.
 
+    RecipeList = require '../../recipe/recipe_list'
+
     RecipeModal = React.createClass
       render: ->
         `<div className="modal fade">
@@ -39,14 +41,25 @@ to allow them to choose which recipe to add.
                 <h4 className="modal-title">Add a Recipe</h4>
               </div>
               <div className="modal-body">
-                Hello!
+                <RecipeList
+                  recipes={this.props.recipes}
+                  onSelectRecipe={this.handleSelect} />
               </div>
             </div>
           </div>
         </div>`
 
-      show: ->
-        $(@getDOMNode()).modal 'show'
+We expose methods for showing and hiding the dialog.
+
+      show: -> $(@getDOMNode()).modal 'show'
+      hide: -> $(@getDOMNode()).modal 'hide'
+
+When the user selects a recipe, we tell our parent component and close the
+dialog.
+
+      handleSelect: (recipe) ->
+        @props.onSelect recipe
+        @hide()
 
 ## View
 
@@ -75,6 +88,8 @@ Each day shows a list of the meals planned for that day.
 
 ## Edit
 
+    plan = require '../../../model/plan'
+
     exports.Edit = React.createClass
 
 Initially, our draft version of the meals is the same as the last saved meals.
@@ -93,25 +108,42 @@ panels now include ways to add or remove meals from the days.
         `<DayPanel index={index}>
           {_.isEmpty(meals)
             ? <p>No meals.</p>
-            : meals.map(this.renderRecipe)}
+            : meals.map(this.renderRecipe.bind(this, index))}
           <button
             className="btn btn-primary"
             onClick={this.handleAddMeal.bind(this, index)}>
             Add Meal
           </button>
-          <RecipeModal ref={'modal'+index} />
+          <RecipeModal
+            ref={'modal'+index}
+            recipes={this.props.recipes}
+            onSelect={this.handleSelectMeal.bind(this, index)} />
         </DayPanel>`
 
-      renderRecipe: (recipeId) ->
+      renderRecipe: (mealsIndex, recipeId, index) ->
         recipe = @props.recipes.get recipeId
-        `<p>{recipe.get('name')}</p>`
+        `<p>
+          {recipe.get('name')}
+          <button className="btn btn-link" onClick={this.handleDeleteMeal.bind(this, mealsIndex, index)}>
+            <i className="fa fa-trash-o" />
+          </button>
+        </p>`
 
 When the user clicks the "Add Meal" button for a day, we show them a list of
-recipes to add. Temporarily, we're just adding the first recipe.
+recipes to add. The dialog is already rendered, so we just need to show it.
 
-      handleAddMeal: (index) ->
-        #recipe = @props.recipes.first() # TODO prompt from user
-        #@setState newMeals: _.tap _.clone(@state.newMeals), (meals) ->
-        #  meals[index] = meals[index].concat recipe.id
-        @refs["modal#{index}"].show()
+      handleAddMeal: (index) -> @refs["modal#{index}"].show()
 
+When the user selects a recipe from the dialog, we add it to the end of the
+list of meals for that day.
+
+      handleSelectMeal: (index, recipe) ->
+        @setState newMeals: plan.addRecipe(@state.newMeals, index, recipe), =>
+          @props.onSave @state.newMeals
+
+When user deletes a recipe, we remove it from the meals collection for that
+day.
+
+      handleDeleteMeal: (mealsIndex, index) ->
+        @setState newMeals: plan.removeRecipe(@state.newMeals, mealsIndex, index), =>
+          @props.onSave @state.newMeals
