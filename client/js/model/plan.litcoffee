@@ -44,3 +44,16 @@ identify it other than the day index and meal index.
     exports.removeRecipe = (meals, dayIndex, index) ->
       _.tap _.clone(meals), (newMeals) ->
         newMeals[dayIndex] = _.reject newMeals[dayIndex], (_, i) -> i is index
+
+We can add a new day to the list. This will add an empty list of meals at the
+appropriate position.
+
+    exports.addDay = (meals, index) ->
+      _.tap _.clone(meals), (newMeals) ->
+        newMeals.splice index, 0, []
+
+We can remove an entire day from the list. This will shorten the number of
+days, and all meals scheduled for that day will be removed from the plan.
+
+    exports.removeDay = (meals, index) ->
+      _.reject meals, (_, i) -> i is index

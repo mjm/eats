@@ -11,21 +11,6 @@ recipes into meal plans.
 
     Index = React.createClass
 
-This component maintains the application's list of plans. While recipes are
-needed by multiple parts of the application, plans are only needed here, so
-this is where we will maintain them as state.
-
-      getInitialState: ->
-        plans: new Plans
-        selectedPlan: null
-
-When the component is mounted, we will fetch and load the collection of plans.
-When they have been loaded, we will refresh this view.
-
-      componentDidMount: ->
-        @state.plans.fetch().then =>
-          @forceUpdate()
-
 The meal plans screen consists of two main components. At the top of the screen
 is a horizontal [list of plans][plist] that the user has made. Below that is a
 display of the [currently selected plan][viewplan].
@@ -44,18 +29,18 @@ event handlers.
 
       renderPlanList: ->
         PlanList
-          plans: @state.plans
-          selectedPlan: @state.selectedPlan
+          plans: @props.plans
+          selectedPlan: @props.selectedPlan
           onAdd: @handleAddPlan
-          onSelect: @handleSelectPlan
+          onSelect: @props.onSelectPlan
 
 If a plan is currently selected, we show it with the [`ViewPlan`][viewplan]
 component. If there is no selection, we display a message saying so.
 
       renderViewPlan: ->
-        if @state.selectedPlan
+        if @props.selectedPlan
           ViewPlan
-            plan: @state.selectedPlan
+            plan: @props.selectedPlan
             recipes: @props.recipes
             onUpdate: @handleUpdatePlan
         else
@@ -65,7 +50,7 @@ When the user hits the add plan button, we want to create a new, empty plan and
 re-render the view.
 
       handleAddPlan: ->
-        @state.plans.create {}
+        @props.plans.create {}
         @forceUpdate()
 
 When the user makes an update to a plan, we save the plan and re-render the
@@ -74,11 +59,5 @@ view.
       handleUpdatePlan: (plan) ->
         plan.save()
         @forceUpdate()
-
-When the user selects a plan from the plan list, we update our state
-appropriately.
-
-      handleSelectPlan: (plan) ->
-        @setState selectedPlan: plan
 
     module.exports = Index

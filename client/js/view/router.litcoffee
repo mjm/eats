@@ -15,5 +15,6 @@ upon.
         'tag/:tag/recipes': 'viewTagRecipes'
         'tag/:tag/recipes/:id': 'viewTagRecipe'
         'plans': 'plans'
+        'plans/:id': 'viewPlan'
 
     module.exports = Router

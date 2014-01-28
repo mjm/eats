@@ -10,13 +10,21 @@ there are not multiple parts, so it's simply for appearances.
       render: ->
         `<nav className="navbar navbar-default" role="navigation">
           {this.renderHeader()}
-          {this.renderLinks()}
+          <div className="navbar-collapse collapse" id="eats-navbar">
+            {this.renderLinks()}
+          </div>
         </nav>`
 
 The header just displays an application name.
 
       renderHeader: ->
         `<div className="navbar-header">
+          <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#eats-navbar">
+            <span className="sr-only">Toggle navigation</span>
+            <span className="icon-bar"></span>
+            <span className="icon-bar"></span>
+            <span className="icon-bar"></span>
+          </button>
           <a className="navbar-brand" href="/">
             <span className="glyphicon glyphicon-cutlery" />
             Eats

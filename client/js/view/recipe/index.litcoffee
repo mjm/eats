@@ -37,7 +37,13 @@ recipes][list] to view. On the right, we show the [currently selected recipe][vi
 [view]: view_recipe.litcoffee
 
         `<div className="row">
-          <div className="col-md-3">
+          {this.props.selectedRecipe
+            ? <ViewRecipe
+                recipe={this.props.selectedRecipe}
+                onUpdate={this.handleUpdateRecipe}
+                onDelete={this.handleDeleteRecipe} />
+            : <div className="col-md-9 col-md-push-3">No recipe selected</div>}
+          <div className="col-md-3 col-md-pull-9">
             <AddRecipe onAdd={this.handleAddRecipe} />
             <TagList
               tags={this.props.recipes.tags()}
@@ -48,12 +54,6 @@ recipes][list] to view. On the right, we show the [currently selected recipe][vi
               selectedRecipe={this.props.selectedRecipe}
               onSelectRecipe={this.props.onSelectRecipe} />
           </div>
-          {this.props.selectedRecipe
-            ? <ViewRecipe
-                recipe={this.props.selectedRecipe}
-                onUpdate={this.handleUpdateRecipe}
-                onDelete={this.handleDeleteRecipe} />
-            : 'No recipe selected'}
         </div>`
 
 When adding a recipe, we make sure it has the currently selected tag, if there

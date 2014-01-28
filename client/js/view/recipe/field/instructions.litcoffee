@@ -56,7 +56,10 @@ on the left.
 
       render: ->
         `<div className="row edit">
-          <div className="col-md-6">
+          <div className="col-sm-6 col-sm-push-6">
+            <View instructions={this.state.newInstructions} showEmptyText={false} />
+          </div>
+          <div className="col-sm-6 col-sm-pull-6">
             <form action="javascript:;" onSubmit={this.handleSubmit}>
               <textarea
                 autoFocus
@@ -70,9 +73,6 @@ on the left.
                 <button type="button" className="btn btn-link btn-sm" onClick={this.handleCancel}>Cancel</button>
               </div>
             </form>
-          </div>
-          <div className="col-md-6">
-            <View instructions={this.state.newInstructions} showEmptyText={false} />
           </div>
         </div>`
 

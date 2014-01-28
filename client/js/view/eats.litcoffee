@@ -17,7 +17,8 @@ router to keep this state in sync with the current URL.
     React    = require 'react'
     _        = require 'lodash'
 
-    {Recipe, Recipes} = require '../model/recipe'
+    {Recipes} = require '../model/recipe'
+    {Plans}   = require '../model/plan'
 
     NavBar       = require './nav_bar'
     Router       = require './router'
@@ -40,24 +41,28 @@ in the recipes view.
       getInitialState: ->
         router: new Router
         recipes: new Recipes
+        plans: new Plans
         view: 'recipes'
         selectedRecipe: null
         selectedTag: null
+        selectedPlan: null
 
-When the component loads, we fetch the recipes collection. This should only
-happen once: when the application is first loaded.
+When the component loads, we fetch the recipe and plan collections. This should
+only happen once: when the application is first loaded.
 
       componentDidMount: ->
-        @state.recipes.fetch().then =>
+        $.when(@state.recipes.fetch(), @state.plans.fetch()).then =>
 
-When the recipes are loaded, we set up the routing handlers, re-render the
-view, and start listening for browser history events.
+When the recipes and plans are loaded, we set up the routing handlers,
+re-render the view, and start listening for browser history events.
 
           @setupRecipeRoutes @state.router
           @setupPlanRoutes @state.router
 
           @forceUpdate()
           Backbone.history.start()
+
+Recipe view URLs control the selected tag and/or recipe.
 
       setupRecipeRoutes: (router) ->
         router.on 'route:recipes', =>
@@ -72,8 +77,12 @@ view, and start listening for browser history events.
             selectedTag: tag
             selectedRecipe: @state.recipes.get id
 
+Plan view URLs control the selected plan.
+
       setupPlanRoutes: (router) ->
         router.on 'route:plans', => @setState view: 'plans'
+        router.on 'route:viewPlan', (id) =>
+          @setState view: 'plans', selectedPlan: @state.plans.get id
 
 The top-level component renders the navigation bar that appears at the top of
 the window as well as the main content view, which is either [recipes][rindex]
@@ -97,28 +106,53 @@ or [plans][pindex].
                 onUpdateRecipe={this.handleSelectRecipe}
                 onDeleteRecipe={_.partial(this.handleSelectRecipe, null)} />}
             {this.state.view === 'plans' &&
-              <PlanIndex recipes={this.state.recipes} />}
+              <PlanIndex
+                plans={this.state.plans}
+                selectedPlan={this.state.selectedPlan}
+                recipes={this.state.recipes}
+                onSelectPlan={this.handleSelectPlan} />}
           </div>
         </div>`
 
 We provide handlers for updating the selection state. Even though the
-selections are only relevant to the recipes view, we maintain them here since
-they are driven by the URL. If we maintained them on the recipes view, that
-view may not exist when the relevant routing events were fired.
+selections are only relevant to the specific views, we maintain them here since
+they are driven by the URL. If we maintained them on the child views, the
+appropriate view may not exist when the relevant routing events were fired.
 
       handleSelectTag: (tag) -> @setState selectedTag: tag, @navigate
       handleSelectRecipe: (recipe) -> @setState selectedRecipe: recipe, @navigate
+      handleSelectPlan: (plan) -> @setState selectedPlan: plan, @navigate
 
 `navigate` is intended to be used as a callback after updating this component's
 state. It tells the router to make the URL consistent with the current state of
 the application.
 
       navigate: ->
+        if @state.view is 'recipes'
+          @navigateRecipes()
+        else
+          @navigatePlans()
+
+A recipes URL encodes both the selected tag and recipe if either or both exist.
+
+      navigateRecipes: ->
         {selectedTag: tag, selectedRecipe: recipe} = @state
         url = _.compact([
           tag and "tag/#{tag}",
           'recipes',
           recipe and "#{recipe.id}"
+        ]).join '/'
+
+        @state.router.navigate url
+
+If a plan is selected, link to that plan. Otherwise, link to the plans view
+with no selection.
+
+      navigatePlans: ->
+        {selectedPlan: plan} = @state
+        url = _.compact([
+          'plans',
+          plan and "#{plan.id}"
         ]).join '/'
 
         @state.router.navigate url

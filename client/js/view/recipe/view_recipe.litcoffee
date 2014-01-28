@@ -58,7 +58,7 @@ edit it. There are several different ways to go from editing back to viewing.
         editHandler = (field) => _.partial @handleEdit, field
         saveHandler = (field) => _.partial @handleSave, field
 
-        `<div className="col-md-9">
+        `<div className="col-md-9 col-md-push-3">
           <div className="panel panel-default view-recipe">
             <div className="panel-heading" onClick={editHandler('name')}>
               {editing === 'name'

@@ -54,7 +54,7 @@ probably change as more functionality is added to plans.
           <div className={this.panelClasses()}>
             <div className="panel-body">
               <div>{this.props.plan.get('name')}</div>
-              <div>{this.props.plan.get('dayCount')} days</div>
+              <div>{this.props.plan.get('meals').length} days</div>
             </div>
           </div>
         </div>`

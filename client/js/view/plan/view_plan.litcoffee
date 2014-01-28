@@ -46,6 +46,7 @@ The meals are shown as a row of panels, one for each day in the plan.
         if editing
           EditMeals _.extend options,
             onSave: @saveHandler 'meals', false
+            onDone: => @setState editing: null
         else
           ViewMeals _.extend options,
             onClick: @editHandler 'meals'
